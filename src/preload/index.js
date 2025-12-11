@@ -4,7 +4,16 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
   //width, height 값을 받아서 Main으로 resize-window 신호를 보냄
-  resizeWindow: (width, height) => ipcRenderer.send('resize-window', width, height)
+  resizeWindow: (width, height) => ipcRenderer.send('resize-window', width, height),
+
+  //store
+  store: {
+    get: (key) => ipcRenderer.invoke('getStoreValue', key),
+    set: (key, value) => ipcRenderer.send('setStoreValue', key, value)
+  },
+
+  openSpotifyLogin: () => ipcRenderer.send('open-spotify-login'),
+  logout: () => ipcRenderer.invoke('logout')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
